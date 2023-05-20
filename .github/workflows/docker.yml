@@ -1,0 +1,36 @@
+# Workflow that push the NPM TODO image to docker.hub in case that it needs to run in some K8s cluster or similar.
+name: Docker Build Push
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'src/**'
+      - 'Dockerfile'
+
+env:
+  image_name: node-todo-challenge
+  image_tag: latest
+
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+    steps:
+    
+    - uses: actions/checkout@v3
+
+    - name: docker login
+      run: docker login --username=${{ secrets.DOCKER_USER }} --password=${{ secrets.DOCKER_PASS }}
+
+      
+    - name: docker build tag push
+      run: | 
+        docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USER }}/${image_name}:${image_tag}
+        docker push ${{ secrets.DOCKER_USER }}/${image_name}:${image_tag}
+
+    - name: docker logout
+      if: always()
+      run: | 
+        docker logout
+

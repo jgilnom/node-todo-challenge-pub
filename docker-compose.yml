@@ -1,0 +1,38 @@
+version: "1"
+services:
+  mongodb:
+    image: mongo:3.4
+    restart: on-failure
+    container_name: mongo_3.4
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=SecurePassword1
+    networks:
+      custom_net:
+        ipv4_address: 192.168.200.20  
+    ports:
+      - 27017:27017
+    network_mode: bridge
+
+  node_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: on-failure      
+    container_name: node-todo
+    environment:
+      - MONGODB_URI=mongodb://admin:SecurePassword1@192.168.200.20:27017/admin
+    networks:
+      custom_net:
+        ipv4_address: 192.168.200.10    
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongodb
+    network_mode: bridge
+
+networks:
+  custom_net:
+    ipam:
+      config:
+        - subnet: 192.168.200.0/24

@@ -2,20 +2,25 @@
 Challenge solution. Jesús Gil (jgilnom)
 
 # Requirements and Steps:
-- Define API_URL env variable with the following value needed by the console cli:
-  *http://127.0.0.1:3000*
-  Of course we could miss and hard-code this variable in the python code, but to allow customization in real hypothetical environments and to hide the real API URL from the code.
+- Clone this respository
+
+- Define the following env variable and value needed by the console cli:
+
+       API_URL = http://127.0.0.1:3000
+  
+   *Of course we could miss and hard-code this variable in the python code, but to allow customization in real hypothetical environments and to hide the real API URL from the code.*
 
 - If not installed, install tabulate with pip:
+
   *pip install tabulate*
 
-- Run docker-commpose up in the root folder of the repository
+- Run **docker-compose up** in the root folder of the repository
 
-- Run todo-cli-apis.py with Python passing the different options supported and arguments needed. Some examples:
-  todo-cli-apis.py test
-  todo-cli-apis.py create --description dummy_item
-  todo-cli-apis.py delete --description dummy_item
-  todo-cli-apis.py get_all --format json
+- Run todo-cli-apis.py with Python passing the different options supported and arguments needed. This script is inside the Python folder. Some examples:
+  - todo-cli-apis.py test
+  - todo-cli-apis.py create --description dummy_item
+  - todo-cli-apis.py delete --description dummy_item
+  - todo-cli-apis.py get_all --format json
 
 # Security
 To increase security, the different connection strings, urls and passwords were moved to ENV VARIABLES in the following files:
